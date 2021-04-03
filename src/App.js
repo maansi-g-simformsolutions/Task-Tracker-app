@@ -11,7 +11,7 @@ export default function App() {
 
   useEffect(() => {
     db.collection("tasks").orderBy('timestamp','desc').onSnapshot((snapshot) => {
-      setTasks(snapshot.docs.map((doc) => doc.data().task));
+      setTasks(snapshot.docs.map((doc) => ({id: doc.id, task: doc.data().task})));
     });
   }, []);
 
@@ -27,7 +27,7 @@ export default function App() {
 
   return (
     <div className="App">
-      <h1>Hello World</h1>
+      <h1>Task Tracker App</h1>
       <form>
         <FormControl>
           <InputLabel>Write a Task</InputLabel>
@@ -48,7 +48,7 @@ export default function App() {
       </form>
       <ul>
         {tasks.map((task) => (
-          <Task text={task} />
+          <Task task={task} />
           //<li>{task}</li>
         ))}
       </ul>
