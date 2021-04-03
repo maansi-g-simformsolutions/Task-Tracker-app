@@ -10,7 +10,7 @@ export default function App() {
   const [input, setInput] = useState("");
 
   useEffect(() => {
-    db.collection("tasks").onSnapshot((snapshot) => {
+    db.collection("tasks").orderBy('timestamp','desc').onSnapshot((snapshot) => {
       setTasks(snapshot.docs.map((doc) => doc.data().task));
     });
   }, []);
@@ -19,7 +19,8 @@ export default function App() {
     event.preventDefault();
 
     db.collection("tasks").add({
-      task: input
+      task: input,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
     setInput("");
   };
